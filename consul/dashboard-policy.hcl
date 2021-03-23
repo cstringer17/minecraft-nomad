@@ -1,3 +1,0 @@
-service "dashboard" {
-  policy = "write"
-}

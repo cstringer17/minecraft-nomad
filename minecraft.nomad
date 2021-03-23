@@ -36,7 +36,7 @@ job "pr1sm-minecraft" {
         ports = ["mc-vanilla-port","mc-vanilla-rcon"]
       }
       resources {
-        cpu    = 1000 # 500 MHz
+        cpu    = 3000 # 500 MHz
         memory = 2048 # 256MB
       }
       env {
