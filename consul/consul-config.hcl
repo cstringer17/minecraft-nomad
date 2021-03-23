@@ -8,6 +8,7 @@ acl = {
 service {
   name = "dashboard",
   port = 9002,
+  token = "457e7af1-b31d-36bc-be62-6b2eab43a027"
   check {
     id = "dashboard-check",
     http = "http://localhost:9002/health",
