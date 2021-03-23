@@ -13,3 +13,7 @@ client {
                       read_only = false
       }
 }
+consul {
+  token = "c1640ce6-d97a-cf75-7243-4c261756e74f"
+}
+
