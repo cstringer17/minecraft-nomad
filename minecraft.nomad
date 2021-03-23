@@ -8,25 +8,32 @@ job "pr1sm-minecraft" {
     network {
       port "mc-vanilla-port" {
         to = 25565
+        static = 25565
       }
-      port "mc-uhc-port" {
-        to = 25566
+      port "mc-vanilla-rcon" {
+        to = 25575
+        static = 25575
       }
-      port "mc-modded-port" {
-        to = 25567
-      }
+      mode = "bridge"
+    }
+
+    volume "minecraft-data" {
+      type = "host"
+      read_only = false
+      source = "minecraft-data"
     }
 
 
     task "minecraft-server" {
       driver = "docker"
+      volume_mount {
+        volume = "minecraft-data"
+        destination = "/data"
+        read_only  = false
+      }
       config {
         image = "itzg/minecraft-server"
-        ports = ["mc-vanilla-port"]
-        volumes = [
-          "/data/:/data",
-          enabled = true
-        ]
+        ports = ["mc-vanilla-port","mc-vanilla-rcon"]
       }
       resources {
         cpu    = 1000 # 500 MHz
@@ -37,36 +44,5 @@ job "pr1sm-minecraft" {
       } 
     }
 
-    task "minecraft-uhc-server" {
-      driver = "docker"
-      config {
-        image = "itzg/minecraft-server"
-        ports = ["mc-uhc-port"]
-      }
-      resources {
-        cpu    = 1000 # 500 MHz
-        memory = 2048 # 256MB
-      }
-      env {
-        EULA = "TRUE"
-        TYPE = "BUKKIT"
-      } 
-    }
-
-    task "minecraft-modded-server" {
-      driver = "docker"
-      config {
-        image = "itzg/minecraft-server"
-        ports = ["mc-modded-port"]
-      }
-      resources {
-        cpu    = 1000 # 500 MHz
-        memory = 2048 # 256MB
-      }
-      env {
-        EULA = "TRUE"
-        TYPE = "FORGE"
-      } 
-    }
   }
 }
